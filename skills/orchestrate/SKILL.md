@@ -50,9 +50,17 @@ Execute directly as a worker. Do not invoke orchestrate or delegate further.
 
 Pass relevant user constraints and applicable instruction locations even when starting a fresh context. Require workers to read the instructions governing their scope. Use fresh context when selecting another model if the host requires it. Avoid full conversation forks, repeated repository scans, and raw log dumps when a concise brief is sufficient. Ask for summaries with exact paths, commands, exit results, and relevant excerpts; retrieve more only to resolve a question.
 
-Keep a compact task ledger in the conversation: assignment, owner, status, dependencies, and evidence. Use a file only when task duration or handoff warrants it. Reuse a worker for related follow-ups; use an independent reviewer when independence matters.
+Keep a compact task ledger in the conversation: assignment, owner, status, dependencies, and evidence. Reuse a worker for related follow-ups; use an independent reviewer when independence matters.
 
 Parallelize independent work when it saves time without duplicating effort. Normally keep at most three workers active, within host limits; fewer is often cheaper. Give each mutable file or shared resource one writer at a time. Sequence overlapping changes or use isolated branches/worktrees with an explicit integration owner. Workers must preserve unrelated user work. Route integration, merge resolution, and final checks to an implementation worker.
+
+## Coordinate across workers
+
+Use native messaging when the host supports it to ask focused questions and relay answers. Workers may clarify local details directly with peers; scope, interface, or file-ownership changes go to the manager for a decision. If peer messaging is unavailable, relay through the manager. Keep messages concise and avoid circular waits: report a blocked dependency to the manager and continue independent work when possible.
+
+For longer work, cross-worker decisions, or a durable handoff, optionally extend the task ledger into one compact shared document. Skip the file for small tasks. Record only confirmed facts with source references or evidence, manager-approved decisions, interface contracts, and blockers; keep proposals clearly pending until accepted. Replace stale entries with the current decision and a brief reason, marking any retained history as superseded. Do not copy transcripts or raw logs.
+
+The manager logically owns this record and decides what is accepted; workers propose updates. Delegate all file creation and edits to one assigned worker, preserving the manager-only boundary and one-writer rule. Give workers the document path and relevant sections with their assignment. Notify affected workers when those sections change so they read the update before dependent work; do not poll the file or repeatedly reread the whole document.
 
 ## Steer, verify, and finish
 

@@ -13,6 +13,8 @@ Claude Code: /orchestrate Fix the upload retry bug and verify the behavior.
 
 The default resource policy is Luna / Sol / Astra in Codex and Haiku / Sonnet / Opus in Claude: economy for mechanical work, standard for coding and detailed review, premium for bounded high-level plan review. Small tasks use one worker. Available models and effort controls depend on the host; the skill cannot add missing capabilities or guarantee lower total cost.
 
+Workers can use native messaging for focused clarifications where supported. Longer tasks may extend the compact task ledger into a shared decision log, owned by the manager and maintained by one assigned worker; small tasks need no shared file.
+
 ## Install
 
 Copy the complete `skills/orchestrate` directory into one of these locations:
